@@ -6,7 +6,7 @@ RUN apt update; apt install -y tzdata; dpkg-reconfigure -f noninteractive tzdata
     sed -i 's|session    required     pam_loginuid.so|session    optional     pam_loginuid.so|g' /etc/pam.d/sshd && \
     mkdir -p /var/run/sshd && \
 # Create jenkins user to the image
-RUN useradd jenkins; echo "jenkins:jenkins" | chpasswd
+    useradd jenkins; echo "jenkins:jenkins" | chpasswd
 
 # Expose SSH port
 EXPOSE 22
