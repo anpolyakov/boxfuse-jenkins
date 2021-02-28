@@ -1,3 +1,11 @@
-FROM tomcat:9.0
-RUN apt update -y
-RUN apt install maven -y
+FROM ubuntu:20.04
+
+# Install required packages
+RUN apt update; apt install openssh-server default-jdk maven -y
+# Create jenkins user to the image
+    useradd jenkins && echo password | --stdin jenkins
+
+# Expose SSH port
+EXPOSE 22
+
+CMD ["/usr/sbin/sshd", "-D"]
