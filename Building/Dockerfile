@@ -9,7 +9,7 @@ RUN apt update; apt install -y tzdata; dpkg-reconfigure -f noninteractive tzdata
     useradd jenkins; echo "jenkins:jenkins" | chpasswd
 
 # Run Docker
-RUN systemctl enable --now docker
+ENTRYPOINT ["docker-entrypoint.sh"]
 
 # Expose SSH port
 EXPOSE 22
