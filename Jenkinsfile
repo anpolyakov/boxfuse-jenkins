@@ -15,20 +15,19 @@ pipeline {
     stages {
         stage('Pull git repository') {
             steps {
-                sh 'rm -rf boxfuse-sample-java-war-hello'
+                sh 'sudo rm -rf boxfuse-sample-java-war-hello'
                 sh 'git clone https://github.com/anpolyakov/boxfuse-sample-java-war-hello.git'
                 dir("boxfuse-sample-java-war-hello") {
-                    sh 'mvn package'
+                    sh 'sudo mvn package'
                 }
             }
         }
         stage('Create docker image') {
             steps {
-                //sh 'sudo docker login --username warious --password ed9b5efc-b8f3-4d30-bc8b-ac826ecef790'
-                sh 'rm -rf boxfuse-jenkins boxfuse-jenkins'
+                sh 'sudo rm -rf boxfuse-jenkins boxfuse-jenkins'
                 sh 'git clone https://github.com/anpolyakov/boxfuse-jenkins.git'
-                dir("boxfuse-jenkins/Deploy") {
-                    //sh 'docker build -t warious/tomcat .'
+                sh 'sudo cp boxfuse-jenkins/Deploy/Dockerfile boxfuse-sample-java-war-hello/target/'
+                dir("boxfuse-sample-java-war-hello/target") {
                     script {
                         dockerImage = docker.build registry
                     }
@@ -42,6 +41,12 @@ pipeline {
 	                    dockerImage.push()
                     }
                 }
+            }
+        }
+        stage('Run Docker Container') {
+            steps {
+                sh 'sudo ssh-keyscan -H devops-lesson11-instance2 >> .ssh/known_hosts'
+                sh 'sudo ssh devops-lesson11-instance2'
             }
         }
     }
