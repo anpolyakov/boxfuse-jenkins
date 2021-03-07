@@ -8,10 +8,8 @@ RUN apt update; apt install -y tzdata; dpkg-reconfigure -f noninteractive tzdata
 # Create jenkins user to the image
     useradd jenkins; echo "jenkins:jenkins" | chpasswd
 
-# Volume Docker socket mapping
-VOLUME /var/run/docker.sock /var/run/docker.sock
-
 # Expose SSH port
 EXPOSE 22
 
+# Run sshd
 CMD ["/usr/sbin/sshd", "-D"]
