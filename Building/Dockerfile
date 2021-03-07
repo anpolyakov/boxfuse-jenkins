@@ -8,6 +8,9 @@ RUN apt update; apt install -y tzdata; dpkg-reconfigure -f noninteractive tzdata
 # Create jenkins user to the image
     useradd jenkins; echo "jenkins:jenkins" | chpasswd
 
+# Add passwordless authentication
+RUN echo "jenkins ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
+
 # Expose SSH port
 EXPOSE 22
 
