@@ -45,8 +45,9 @@ pipeline {
         }
         stage('Run Docker Container') {
             steps {
-                sh 'sudo ssh-keyscan -H devops-lesson11-instance2 >> .ssh/known_hosts'
-                sh 'sudo ssh devops-lesson11-instance2'
+                sshagent(['36ff06eb-9726-4ade-8a51-38e5d065f6e8']) {
+                    sh 'ssh -o StrictHostKeyChecking=no jenkins@devops-lesson11-instance2 sudo docker run -d -p 8080:8080 warious/tomcat'
+                }
             }
         }
     }
