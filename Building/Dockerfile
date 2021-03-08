@@ -7,7 +7,7 @@ RUN apt update; apt install -y tzdata; dpkg-reconfigure -f noninteractive tzdata
     mkdir -p /var/run/sshd && \
 # Create jenkins user to the image
     groupadd jenkins -g 120 && \ 
-    useradd jenkins -u 113 -g 120; echo "jenkins:jenkins" | chpasswd
+    useradd jenkins -u 113 -g 120 -m -d /var/lib/jenkins; echo "jenkins:jenkins" | chpasswd
 
 # Add passwordless authentication
 RUN echo "jenkins ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
